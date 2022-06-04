@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -16,6 +17,7 @@ import com.example.indahlaundry.Adapter.AdapterData;
 import com.example.indahlaundry.Model.DataModel;
 import com.example.indahlaundry.Model.ResponseModel;
 import com.example.indahlaundry.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private List<DataModel> listLaundry = new ArrayList<>();
     private SwipeRefreshLayout srlData;
     private ProgressBar pbData;
+    private FloatingActionButton fabTambah;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         rvData = findViewById(R.id.rv_data);
         srlData = findViewById(R.id.srl_data);
         pbData = findViewById(R.id.pb_data);
+        fabTambah = findViewById(R.id.fab_tambah);
 
         lmData = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvData.setLayoutManager(lmData);
@@ -52,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
                 srlData.setRefreshing(true);
                 retrieveData();
                 srlData.setRefreshing(false);
+            }
+        });
+
+        fabTambah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, TambahActivity.class));
             }
         });
     }
@@ -73,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 int kode = response.body().getKode();
                 String pesan = response.body().getPesan();
-                Toast.makeText(MainActivity.this, "Kode: "+kode+" | Pesan: "+pesan, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Kode: "+kode+" | Pesan: "+pesan, Toast.LENGTH_SHORT).show();
 
                 listLaundry = response.body().getData();
                 adData = new AdapterData(MainActivity.this, listLaundry);
