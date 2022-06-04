@@ -17,11 +17,11 @@ import java.util.List;
 public class AdapterData extends RecyclerView.Adapter<AdapterData.HolderData> {
     private Context ctx;
 
-    private List<DataModel> listLaundry;
+    private List<DataModel> listData;
 
-    public AdapterData(Context ctx, List<DataModel> listLaundry) {
+    public AdapterData(Context ctx, List<DataModel> listData) {
         this.ctx = ctx;
-        this.listLaundry = listLaundry;
+        this.listData = listData;
     }
 
     @NonNull
@@ -34,17 +34,17 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.HolderData> {
 
     @Override
     public void onBindViewHolder(@NonNull HolderData holder, int position) {
-        DataModel dm = listLaundry.get(position);
+        DataModel dm = listData.get(position);
 
-        holder.tvId.setText(dm.getId());
+        holder.tvId.setText(String.valueOf(dm.getId()));
         holder.tvNama.setText(dm.getNama());
         holder.tvAlamat.setText(dm.getAlamat());
         holder.tvTelepon.setText(dm.getTelepon());
     }
 
     @Override
-    public int getItemCount() {
-        return listLaundry.size();
+    public int getItemCount() { 
+        return listData.size();
     }
 
     public class HolderData extends RecyclerView.ViewHolder {

@@ -6,6 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface APIRequestData {
-    @GET("retriew.php")
+    @GET("retrieve.php")
     Call<ResponseModel> ardRetrieveData();
 }

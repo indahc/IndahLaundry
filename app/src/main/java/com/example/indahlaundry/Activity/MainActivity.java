@@ -3,8 +3,11 @@ package com.example.indahlaundry.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.indahlaundry.API.APIRequestData;
@@ -27,18 +30,41 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adData;
     private RecyclerView.LayoutManager lmData;
     private List<DataModel> listLaundry = new ArrayList<>();
+    private SwipeRefreshLayout srlData;
+    private ProgressBar pbData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         rvData = findViewById(R.id.rv_data);
+        srlData = findViewById(R.id.srl_data);
+        pbData = findViewById(R.id.pb_data);
+
         lmData = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvData.setLayoutManager(lmData);
+//        retrieveData();
+
+        srlData.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srlData.setRefreshing(true);
+                retrieveData();
+                srlData.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         retrieveData();
     }
 
     public void retrieveData(){
+        pbData.setVisibility(View.VISIBLE);
+
         APIRequestData arData = RetroServer.konekRetrofit().create(APIRequestData.class);
         Call<ResponseModel> tampilData = arData.ardRetrieveData();
 
@@ -53,11 +79,15 @@ public class MainActivity extends AppCompatActivity {
                 adData = new AdapterData(MainActivity.this, listLaundry);
                 rvData.setAdapter(adData);
                 adData.notifyDataSetChanged();
+
+                pbData.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Gagal Menghubungi Server"+t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                pbData.setVisibility(View.INVISIBLE);
             }
         });
 
