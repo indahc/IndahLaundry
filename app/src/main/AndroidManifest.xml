@@ -15,9 +15,12 @@
         android:theme="@style/Theme.IndahLaundry"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity.TambahActivity"
-            android:parentActivityName=".Activity.MainActivity"
+            android:name=".Activity.UbahActivity"
             android:exported="true" />
+        <activity
+            android:name=".Activity.TambahActivity"
+            android:exported="true"
+            android:parentActivityName=".Activity.MainActivity" />
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true">

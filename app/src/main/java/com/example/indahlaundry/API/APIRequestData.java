@@ -19,4 +19,16 @@ public interface APIRequestData {
             @Field("alamat") String alamat,
             @Field("telepon") String telepon
     );
+
+    @FormUrlEncoded
+    @POST("delete.php")
+    Call<ResponseModel> ardDeleteData(
+            @Field("id") int id
+    );
+
+    @FormUrlEncoded
+    @POST("get.php")
+    Call<ResponseModel> ardGetData(
+            @Field("id") int id
+    );
 }
