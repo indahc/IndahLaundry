@@ -31,4 +31,13 @@ public interface APIRequestData {
     Call<ResponseModel> ardGetData(
             @Field("id") int id
     );
+
+    @FormUrlEncoded
+    @POST("update.php")
+    Call<ResponseModel> ardUpdateData(
+            @Field("id") int id,
+            @Field("nama") String nama,
+            @Field("alamat") String alamat,
+            @Field("telepon") String telepon
+    );
 }

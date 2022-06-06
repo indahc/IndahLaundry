@@ -16,7 +16,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Activity.UbahActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".Activity.MainActivity" />
+
         <activity
             android:name=".Activity.TambahActivity"
             android:exported="true"
